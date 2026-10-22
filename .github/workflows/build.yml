@@ -224,6 +224,13 @@ jobs:
           git fetch --depth 1 origin "$UPSTREAM_SHA"
           git checkout -q FETCH_HEAD
 
+      - name: Fetch submodules (media, ffmpeg, tdlib and other native libs)
+        working-directory: tg
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive --depth 1 --jobs 4 || git submodule update --init --recursive --jobs 4
+          ls TMessagesProj_Modules/media | head
+
       - name: Apply Koch Gram changes
         working-directory: tg
         run: |
